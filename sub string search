@@ -1,0 +1,19 @@
+///substring search process without algorithm, time complexity (N*N)logN where N is the length of string,
+///if string length 3000, then it complete within 1 second
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string targ,pat;
+    cout<<"Input the target: "; cin>>targ;cout<<endl;
+    cout<<"Input pattern to match: ";cin>>pat;
+    for(int i=0; i<targ.length();i++){
+        string subst = targ.substr(i);
+        if(pat.compare(subst)==0){cout<<"matched"<<endl; return 0;}
+    }
+    cout<<"Not matched"<<endl;
+
+    return 0;
+}
