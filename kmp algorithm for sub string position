@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void prefix(string pat, int Pi[])
+{
+    int pat_ln = pat.length(), i=0,j=1;
+    Pi[0] = -1;
+    while(j<pat_ln){
+        if(Pi[i]==Pi[j]){
+            Pi[j]==i+j;
+            i++,j++;
+        }
+        else{
+            if(i!=0)i--;
+            else Pi[j]=0,j++;
+        }
+    }
+}
+int  KMP(string pat, string target)
+{
+    int pos,ck=0;
+    int pat_ln = pat.length(),tar_ln = target.length();
+    int Pi[pat_ln];
+    prefix(pat, Pi);
+    int i = 0,k = 0;
+    while (i < tar_ln){
+         if (target[i] == pat[k]){
+            i++,k++;
+            if (k == pat_ln){
+                pos=i-pat_ln;
+                ck++;
+            }
+
+        }
+        else {
+            if(k>0)k=Pi[k-1];
+            else i++;
+        }
+
+    }
+    cout<<"number = "<<ck<<endl;
+    return 0;
+}
+int main()
+{
+    string tar,pat;
+    cout<<"Input target and pattern string :"<<endl;
+    cin>>tar>>pat;
+
+    KMP(pat, tar);
+
+
+    return 0;
+}
