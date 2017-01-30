@@ -1,54 +1,57 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void prefix(string pat, int Pi[])
-{
-    int pat_ln = pat.length(), i=0,j=1;
-    Pi[0] = -1;
-    while(j<pat_ln){
-        if(Pi[i]==Pi[j]){
-            Pi[j]==i+j;
-            i++,j++;
+int prefix(string pat, int pi[]){
+    int now;
+    pi[0]=now=-1;
+    int len=pat.length();
+
+    for(int i=1; i<len; i++){
+        while(now != -1 && pat[now+1] != pat[i]){
+            now =pi[now];
         }
-        else{
-            if(i!=0)i--;
-            else Pi[j]=0,j++;
-        }
+        if(pat[now+1]== pat[i]) pi[i] = ++now;
+        else pi[i]=now=-1;
     }
+
 }
-int  KMP(string pat, string target)
+int KMP(string pat, string target)
 {
-    int pos,ck=0;
-    int pat_ln = pat.length(),tar_ln = target.length();
-    int Pi[pat_ln];
+    int m = pat.length();
+    int n = target.length();
+    int Pi[m],pos;
     prefix(pat, Pi);
-    int i = 0,k = 0;
-    while (i < tar_ln){
-         if (target[i] == pat[k]){
-            i++,k++;
-            if (k == pat_ln){
-                pos=i-pat_ln;
-                ck++;
+    int i = 0;
+    int k = 0;
+    while (i < n){
+        if (k == -1){
+            i++;
+            k = 0;
+        }
+        else if (target[i] == pat[k]){
+            i++;
+            k++;
+            if (k == m){
+                pos=i-m;
             }
-
         }
-        else {
-            if(k>0)k=Pi[k-1];
-            else i++;
-        }
-
+        else
+            k = Pi[k];
     }
-    cout<<"number = "<<ck<<endl;
+
+    cout<<"the pattern position  = "<<pos+1<<" to "<<m+pos+1<<endl;
     return 0;
 }
 int main()
 {
     string tar,pat;
-    cout<<"Input target and pattern string :"<<endl;
-    cin>>tar>>pat;
+    cout<<"Input a string :"; cin>>tar;
+    cout<<"Input pattern :";cin>>pat;
+   (KMP(pat, tar));
 
-    KMP(pat, tar);
+
 
 
     return 0;
 }
+
