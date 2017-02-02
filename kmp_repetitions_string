@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+long long int a;
+int prefix(string pat){
+    a=0;
+    int i=0,j=1;
+    int ln=pat.length();
+    for(int k=1; k<ln; k++){
+        if(pat[i]==pat[j]){
+            a++;
+            i++;j++;
+        }
+        else {j++;}
+    }
+
+}
+
+int main()
+{
+    string pat;
+    int vl;
+
+
+    while (cin >> pat, pat.find('.') == string::npos){
+    prefix(pat);
+    int ln=pat.length();
+
+    if(ln%(ln-a)==0 and ln!=ln-a)vl=(ln/(ln-a));
+    else vl=1;
+    cout<<vl<<endl;
+    }
+
+
+
+
+    return 0;
+}
