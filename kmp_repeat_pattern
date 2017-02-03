@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int prefix(string pat, int pi[]){
+    int now;
+    pi[0]=now=-1;
+    int len=pat.length();
+
+    for(int i=1; i<len; i++){
+        while(now != -1 && pat[now+1] != pat[i]){
+            now =pi[now];
+        }
+        if(pat[now+1]== pat[i]) pi[i] = ++now;
+        else pi[i]=now=-1;
+    }
+
+}
+int KMP(string pat, string target)
+{
+    int m = pat.length();
+    int n = target.length();
+    int Pi[m],pos=0;
+    prefix(pat, Pi);
+    int i = 0;
+    int k = 0;
+    while (i < n){
+        if (k == -1){
+            i++;
+            k = 0;
+        }
+        else if (target[i] == pat[k]){
+            i++;
+            k++;
+            if (k == m){
+                pos++;;
+            }
+        }
+        else
+            k = Pi[k];
+    }
+
+    cout<<"the pattern comes = "<<pos<<endl;
+    return 0;
+}
+int main()
+{
+    string tar,pat;
+    cout<<"Input a string :"; cin>>tar;
+    cout<<"Input pattern :";cin>>pat;
+   (KMP(pat, tar));
+
+
+
+
+    return 0;
+}
+
