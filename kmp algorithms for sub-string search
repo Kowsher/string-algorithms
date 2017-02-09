@@ -2,38 +2,42 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int prefix(string pat, int pi[]){
-    int now;
-    pi[0]=now=-1;
-    int len=pat.length();
 
-    for(int i=1; i<len; i++){
-        while(now != -1 && pat[now+1] != pat[i]){
-            now =pi[now];
-        }
-        if(pat[now+1]== pat[i]) pi[i] = ++now;
-        else pi[i]=now=-1;
+int prefix(string pat, int Pi[]) {
+    Pi[0] = -1;
+    int i = 1, j = 0;
+    while(i<pat.size()) {
+        if (pat[i] == pat[j])
+            Pi[++i] = ++j;
+        else if (j == 0)
+            Pi[++i] = 0;
+        else
+            j = Pi[j-1];
     }
 
 }
-bool KMP(string pat, string target)
+
+bool KMP(string pattern, string target)
 {
-    int m = pat.length();
+    int m = pattern.length();
     int n = target.length();
     int Pi[m];
-    prefix(pat, Pi);
+   prefix(pattern, Pi);
     int i = 0;
     int k = 0;
-    while (i < n){
-        if (k == -1){
+    while (i < n)
+    {
+        if (k == -1)
+        {
             i++;
             k = 0;
         }
-        else if (target[i] == pat[k]){
+        else if (target[i] == pattern[k])
+        {
             i++;
             k++;
             if (k == m)
-            return 1;
+                return 1;
         }
         else
             k = Pi[k];
@@ -54,4 +58,5 @@ int main()
 
     return 0;
 }
+
 
