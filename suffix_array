@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define MAXN 65536
+#define MAXLG 17
+
+string text;
+
+struct entry{
+    int tup[2];
+    int indx;
+} L[MAXN];
+
+int Rank[MAXLG][MAXN],N,i,stp, cnt;
+
+int cmp(struct entry a, struct entry b){
+    return a.tup[0]==b.tup[0] ?(a.tup[1]<b.tup[1] ?1: 0): (a.tup[0]<b.tup[0] ?1: 0);
+}
+
+void build_suffix_array(string text){
+    for(N= text.size(), i = 0; i < N; i++)
+        Rank[0][i] = text[i] - 'a';
+
+    for(stp=1, cnt = 1; cnt < N; stp++, cnt *= 2)
+    {
+        for(i=0; i < N; i++)
+        {
+            L[i].tup[0]=Rank[stp- 1][i];
+            L[i].tup[1]=i +cnt <N? Rank[stp -1][i+ cnt]:-1;
+            L[i].indx= i;
+        }
+        sort(L, L+N, cmp);
+        for(i=0; i < N; i++)
+            Rank[stp][L[i].indx] =i> 0 && L[i].tup[0]==L[i-1].tup[0] && L[i].tup[1] == L[i- 1].tup[1] ? Rank[stp][L[i-1].indx] : i;
+    }
+    for(int i = 0; i < N; i++)
+        cout<<L[i].indx<<' '<< text.substr(L[i].indx)<<endl;
+}
+
+int main()
+{
+    cin>>text;
+    build_suffix_array(text);
+
+    return 0;
+}
